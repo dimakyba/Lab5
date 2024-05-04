@@ -1,4 +1,4 @@
-namespace lab5_serialization {
+namespace Lab5 {
 	public struct Train : IComparable<Train>
 	{
 		public string Name { get; set; }

@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using lab5_serialization;
 
 namespace Lab5
 {
@@ -7,31 +6,34 @@ namespace Lab5
   {
     static void Main()
     {
-      Console.OutputEncoding = UTF8Encoding.UTF8;
+      Console.OutputEncoding = Encoding.Unicode;
       Console.InputEncoding = Encoding.Unicode;
 
-      bool get_out_out = false, get_out = false;
+      bool get_out_out = false, get_out, txt, json, xml;
       while (!get_out_out) {
-        Console.Write("\nChoose struct { Order, Train }: ");
         Console.WriteLine("[0] Exit");
         Console.WriteLine("[1] Order");
         Console.WriteLine("[2] Train");
-        int objectType = int.Parse(Console.ReadLine()), choice;
+        Console.Write("\nChoose an option: ");
         
+        int objectType = int.Parse(Console.ReadLine()), choice;
         switch (objectType) {
           case 1:
             get_out = false;
             while (!get_out)
             {
+              txt = File.Exists("Orders.txt");
+              json = File.Exists("Orders.json");
+              xml = File.Exists("Orders.xml");
               Console.WriteLine("[0] Exit");
               Console.WriteLine("[1] Write data to TXT file");
               Console.WriteLine("[2] Serialize data to JSON file");
               Console.WriteLine("[3] Serialize data to XML file");
-              if (File.Exists("Orders.txt"))
+              if (txt)
                 Console.WriteLine("[4] Read data data TXT file");
-              if (File.Exists("Orders.json"))
+              if (json)
                 Console.WriteLine("[5] Deserialize data from JSON file");
-              if (File.Exists("Orders.xml"))
+              if (xml)
                 Console.WriteLine("[6] Deserialize data from XML file");
               
               Console.Write("\nChoose an option: ");
@@ -49,13 +51,22 @@ namespace Lab5
                   SerializeIntoXml(EnterObjects<Order>(), "Orders.xml");
                   break;
                 case 4:
-                  ReadFromTxt<Order>("Orders.txt");
+                  if (txt)
+                    ReadFromTxt<Order>("Orders.txt");
+                  else
+                    Console.WriteLine("Generate a .txt file first");
                   break;
                 case 5:
-                  DeserializeFromJson<Order>("Orders.json");
+                  if (json)
+                    DeserializeFromJson<Order>("Orders.json");
+                  else
+                    Console.WriteLine("Generate a .json file first");
                   break;
                 case 6:
-                  DeserializeFromXml<Order>("Orders.xml");
+                  if (xml)
+                    DeserializeFromXml<Order>("Orders.xml");
+                  else
+                    Console.WriteLine("Generate a .xml file first");
                   break;
                 case 0:
                   get_out = true;
@@ -70,15 +81,18 @@ namespace Lab5
             get_out = false;
             while (!get_out)
             {
+              txt = File.Exists("Orders.txt");
+              json = File.Exists("Orders.json");
+              xml = File.Exists("Orders.xml");
               Console.WriteLine("[0] Exit");
               Console.WriteLine("[1] Write data to TXT file");
               Console.WriteLine("[2] Serialize data to JSON file");
               Console.WriteLine("[3] Serialize data to XML file");
-              if (File.Exists("Trains.txt"))
+              if (txt)
                 Console.WriteLine("[4] Read data data TXT file");
-              if (File.Exists("Trains.json"))
+              if (json)
                 Console.WriteLine("[5] Deserialize data from JSON file");
-              if (File.Exists("Trains.xml"))
+              if (xml)
                 Console.WriteLine("[6] Deserialize data from XML file");
                 
               Console.Write("\nChoose an option: ");
@@ -95,13 +109,22 @@ namespace Lab5
                   SerializeIntoXml(EnterObjects<Train>(), "Trains.xml");
                   break;
                 case 4:
-                  ReadFromTxt<Train>("Trains.txt");
+                  if (txt)
+                    ReadFromTxt<Train>("Trains.txt");
+                  else
+                    Console.WriteLine("Generate a .txt file first");
                   break;
                 case 5:
-                  DeserializeFromJson<Train>("Trains.json");
+                  if (json)
+                    DeserializeFromJson<Train>("Trains.json");
+                  else
+                    Console.WriteLine("Generate a .json file first");
                   break;
                 case 6:
-                  DeserializeFromXml<Train>("Trains.xml");
+                  if (xml)
+                    DeserializeFromXml<Train>("Trains.xml");
+                  else
+                    Console.WriteLine("Generate a .xnl file first");
                   break;
                 case 0:
                   get_out = true;
