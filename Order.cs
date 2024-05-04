@@ -27,16 +27,17 @@ namespace Lab5
       SumInCents = decimal.Parse(fields[2]);
     }
 
-    public override string ToString()
+    public override readonly string ToString()
     {
-      return $"Sender: {SenderAccount}\nReceiver: {ReceiverAccount}\nSum of transaction: {CentsToHrn(SumInCents)}\n";
+      return $"{SenderAccount} {ReceiverAccount} {CentsToHrn(SumInCents)}";
     }
 
-    public int CompareTo(Order order)
+    public readonly int CompareTo(Order other)
     {
-      return string.Compare(this.SenderAccount, order.SenderAccount, StringComparison.Ordinal);
+      return (SumInCents > other.SumInCents) ? 1 : -1;
     }
-    public string CentsToHrn(decimal cents)
+    
+    public static string CentsToHrn(decimal cents)
     {
       cents /= 100;
       var hrn = Math.Floor(cents);
