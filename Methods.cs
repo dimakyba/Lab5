@@ -2,114 +2,135 @@ using System.Text;
 using System.Text.Json;
 using System.Xml.Serialization;
 
-
 namespace Lab5
 {
-  public partial class Program
-  {
-    static List<Order> EnterOrders()
+  public partial class Program {
+
+    private static readonly Dictionary<Type, XmlSerializer> xmlOptions = [];
+
+    private static readonly JsonSerializerOptions jsonOptions = new(JsonSerializerDefaults.General);
+    static List<T> EnterObjects<T>() where T : struct, IComparable<T>
     {
-      List<Order> orders = [];
-      System.Console.Write("Введіть кількість структур, які ви хочете ввести: ");
-
+      List<T> objects = [];
+      Console.Write($"Enter number of objects you want to add: ");
       int n = int.Parse(Console.ReadLine());
+      Console.WriteLine($"Example input format: <field1> <field2> <field3>");
 
-      System.Console.WriteLine("Приклад правильного введення структури: account1 account2 1231231");
-      System.Console.WriteLine("Введіть структури:");
       for (int i = 0; i < n; i++)
       {
-        System.Console.Write($"{i + 1}) ");
-        orders.Add(new(Console.ReadLine()));
-
+        Console.WriteLine($"Enter object {i}:");
+        Console.Write($"{i + 1}) ");
+        objects.Add(AutoInput<T>(Console.ReadLine()));
       }
 
-      // should i return sorted list?
-      orders.Sort();
-      return orders;
+      objects.Sort();
+      return objects;
     }
 
-    static void WriteOrdersIntoTXT(List<Order> orders, string filename)
+    static T AutoInput<T>(string input) where T : struct, IComparable<T>
     {
+      var constructor = typeof(T).GetConstructor([typeof(string)]);
+      return (T)constructor.Invoke([input]);
+    }
 
+    static void WriteIntoTxt<T>(List<T> objects, string filename) where T : struct, IComparable<T>
+    {
       using (StreamWriter sw = new(filename))
       {
-        foreach (var order in orders)
-        {
-          sw.WriteLine($"{order.SenderAccount} {order.ReceiverAccount} {order.SumInCents}");
-        }
+        foreach (var obj in objects)
+          sw.WriteLine(obj.ToString());
       }
-      System.Console.WriteLine("Done!");
+      Console.WriteLine("Done!");
     }
 
-    static void ReadOrdersFromTXT(string filename)
+    static List<T> ReadFromTxt<T>(string filename) where T : struct, IComparable<T>
     {
-      List<Order> orders = [];
+      List<T> objects = [];
       try
       {
         StreamReader reader = new(filename);
-        string? line;
+        string line;
         while ((line = reader.ReadLine()) != null)
-          orders.Add(new(line));
-      }
-      catch (IOException e) { Console.WriteLine($"idk -> {e.Message}"); }
-      System.Console.WriteLine("Структури, прочитані з TXT:");
-      foreach (var order in orders)
-      {
-        System.Console.WriteLine(order);
-      }
-    }
-
-    static void SerializeOrdersIntoXML(List<Order> orders, string filename)
-    {
-      XmlSerializer serializer = new XmlSerializer(typeof(List<Order>));
-      using (TextWriter writer = new StreamWriter(filename))
-      {
-        serializer.Serialize(writer, orders);
-      }
-      System.Console.WriteLine("Done!");
-    }
-
-
-    static void DeserializeOrdersFromXml(string filename)
-    {
-      XmlSerializer serializer = new XmlSerializer(typeof(Order[]));
-      using (FileStream fileStream = new FileStream(filename, FileMode.Open))
-      {
-        var deserializedOrders = (Order[])serializer.Deserialize(fileStream);
-
-        System.Console.WriteLine("Десереалізовані з XML структури:");
-        foreach (var order in deserializedOrders)
         {
-          System.Console.WriteLine(order);
+          objects.Add(AutoInput<T>(line));
         }
       }
-    }
-
-
-    static void SerializeOrdersIntoJson(List<Order> orders, string filename)
-    {
-      JsonSerializerOptions options = new JsonSerializerOptions
+      catch (IOException e)
       {
-        WriteIndented = true,
-        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-      };
-
-      File.WriteAllText("Orders.json", JsonSerializer.Serialize(orders, options), Encoding.UTF8);
-      System.Console.WriteLine("Done!");
-    }
-
-    static void DeserializeOrdersFromJson(string filename)
-    {
-      var deserializedOrders = JsonSerializer.Deserialize<Order[]>(File.ReadAllText(filename));
-
-      System.Console.WriteLine("Десереалізовані з JSON структури:");
-      foreach (var order in deserializedOrders)
-      {
-        System.Console.WriteLine(order);
+        Console.WriteLine($"Error: {e.Message}");
       }
+
+      Console.WriteLine($"Objects read from TXT:");
+      foreach (var obj in objects)
+      {
+        Console.WriteLine(obj);
+      }
+
+      return objects;
     }
 
+    static void SerializeIntoXml<T>(List<T> objects, string filename) where T : struct, IComparable<T>
+    {
+      Type listType = typeof(List<T>);
+      XmlSerializer serializer;
 
+      lock (xmlOptions)
+      {
+        if (!xmlOptions.TryGetValue(listType, out serializer))
+        {
+          serializer = new XmlSerializer(listType);
+          xmlOptions.Add(listType, serializer);
+        }
+      }
 
+      using (TextWriter writer = new StreamWriter(filename))
+      {
+        serializer.Serialize(writer, objects);
+      }
+
+      Console.WriteLine("Done!");
+    }
+
+    static List<T> DeserializeFromXml<T>(string filename) where T : struct, IComparable<T>
+    {
+      Type arrayType = typeof(T[]);
+      XmlSerializer serializer;
+
+      lock (xmlOptions)
+      {
+        if (!xmlOptions.TryGetValue(arrayType, out serializer))
+        {
+          serializer = new XmlSerializer(arrayType);
+          xmlOptions.Add(arrayType, serializer);
+        }
+      }
+
+      using FileStream fileStream = new(filename, FileMode.Open);
+      var deserializedObjects = (T[])serializer.Deserialize(fileStream);
+
+      Console.WriteLine($"Objects deserialized from XML:");
+      foreach (var obj in deserializedObjects)
+      {
+        Console.WriteLine(obj);
+      }
+
+      return deserializedObjects.ToList();
+    }
+
+    static void SerializeIntoJson<T>(List<T> objects, string filename) where T : struct, IComparable<T>
+    {
+      File.WriteAllText(filename, JsonSerializer.Serialize(objects, jsonOptions), Encoding.UTF8);
+      Console.WriteLine("Done!");
+    }
+
+    static List<T> DeserializeFromJson<T>(string filename) where T : struct, IComparable<T>
+    {
+      var deserializedObjects = JsonSerializer.Deserialize<T[]>(File.ReadAllText(filename), jsonOptions);
+
+      Console.WriteLine($"Objects deserialized from JSON:");
+      foreach (var obj in deserializedObjects) Console.WriteLine(obj);
+
+      return deserializedObjects.ToList();
+    }
   }
 }
