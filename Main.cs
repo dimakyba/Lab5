@@ -27,17 +27,15 @@ namespace Lab5
             {
               Console.WriteLine("[0] Exit");
               Console.WriteLine("[1] Write data to TXT file");
-              Console.WriteLine("[2] Serialize data to XML file");
-              Console.WriteLine("[3] Serialize data to JSON file");
-
+              Console.WriteLine("[2] Serialize data to JSON file");
+              Console.WriteLine("[3] Serialize data to XML file");
               if (File.Exists("Order.txt"))
                 Console.WriteLine("[4] Read data data TXT file");
-
-              if (File.Exists("Order.xml"))
-                Console.WriteLine("[5] Deserialize data from XML file");
-
               if (File.Exists("Order.json"))
-                Console.WriteLine("[6] Deserialize data from JSON file");
+                Console.WriteLine("[5] Deserialize data from JSON file");
+              if (File.Exists("Order.xml"))
+                Console.WriteLine("[6] Deserialize data from XML file");
+              
               Console.Write("\nChoose an option: ");
               choice = int.Parse(Console.ReadLine());
 
@@ -47,19 +45,19 @@ namespace Lab5
                   WriteIntoTxt(EnterObjects<Order>(), "Order.txt");
                   break;
                 case 2:
-                  SerializeIntoJson(EnterObjects<Order>(), "Order.xml");
+                  SerializeIntoJson(EnterObjects<Order>(), "Order.json");
                   break;
                 case 3:
-                  SerializeIntoXml(EnterObjects<Order>(), "Order.json");
+                  SerializeIntoXml(EnterObjects<Order>(), "Order.xml");
                   break;
                 case 4:
                   ReadFromTxt<Order>("Order.txt");
                   break;
                 case 5:
-                  DeserializeFromXml<Order>("Order.xml");
+                  DeserializeFromJson<Order>("Order.json");
                   break;
                 case 6:
-                  DeserializeFromJson<Order>("Order.json");
+                  DeserializeFromXml<Order>("Order.xml");
                   break;
                 case 0:
                   get_out = true;
@@ -73,17 +71,15 @@ namespace Lab5
           case 2:
             Console.WriteLine("[0] Exit");
             Console.WriteLine("[1] Write data to TXT file");
-            Console.WriteLine("[2] Serialize data to XML file");
-            Console.WriteLine("[3] Serialize data to JSON file");
-
+            Console.WriteLine("[2] Serialize data to JSON file");
+            Console.WriteLine("[3] Serialize data to XML file");
             if (File.Exists("Train.txt"))
               Console.WriteLine("[4] Read data data TXT file");
-
-            if (File.Exists("Train.xml"))
-              Console.WriteLine("[5] Deserialize data from XML file");
-
             if (File.Exists("Train.json"))
-              Console.WriteLine("[6] Deserialize data from JSON file");
+              Console.WriteLine("[5] Deserialize data from JSON file");
+            if (File.Exists("Train.xml"))
+              Console.WriteLine("[6] Deserialize data from XML file");
+              
             Console.Write("\nChoose an option: ");
             choice = int.Parse(Console.ReadLine());
             switch (choice)
@@ -92,19 +88,19 @@ namespace Lab5
                 WriteIntoTxt(EnterObjects<Train>(), "Train.txt");
                 break;
               case 2:
-                SerializeIntoJson(EnterObjects<Train>(), "Train.xml");
+                SerializeIntoJson(EnterObjects<Train>(), "Train.json");
                 break;
               case 3:
-                SerializeIntoXml(EnterObjects<Train>(), "Train.json");
+                SerializeIntoXml(EnterObjects<Train>(), "Train.xml");
                 break;
               case 4:
                 ReadFromTxt<Train>("Train.txt");
                 break;
               case 5:
-                DeserializeFromXml<Train>("Train.xml");
+                DeserializeFromJson<Train>("Train.json");
                 break;
               case 6:
-                DeserializeFromJson<Train>("Train.json");
+                DeserializeFromXml<Train>("Train.xml");
                 break;
               case 0:
                 get_out = true;

@@ -8,7 +8,10 @@ namespace Lab5
 
     private static readonly Dictionary<Type, XmlSerializer> xmlOptions = [];
 
-    private static readonly JsonSerializerOptions jsonOptions = new(JsonSerializerDefaults.General);
+    private static readonly JsonSerializerOptions jsonOptions = new() {
+        WriteIndented = true,
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
     static List<T> EnterObjects<T>() where T : struct, IComparable<T>
     {
       List<T> objects = [];
