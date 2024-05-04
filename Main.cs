@@ -7,7 +7,9 @@ namespace Lab5
   {
     static void Main()
     {
-      Console.OutputEncoding = UTF8Encoding.UTF8;    
+      Console.OutputEncoding = UTF8Encoding.UTF8;
+      Console.InputEncoding = Encoding.Unicode;
+
       bool get_out_out = false, get_out = false;
       while (!get_out_out) {
         Console.Write("\nChoose struct { Order, Train }: ");
