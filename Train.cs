@@ -20,7 +20,7 @@ namespace lab5_serialization {
 
     public override readonly string ToString()
     {
-      return $"Name: {Name}\nNumber: {Number}\nSum of transaction: {TimeOfDeparture}\n";
+      return $"{Name} {Number} {TimeOfDeparture}";
     }
 
 		public readonly int CompareTo(Train other) {

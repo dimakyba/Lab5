@@ -8,6 +8,10 @@ namespace Lab5
     static void Main()
     {
       Console.OutputEncoding = UTF8Encoding.UTF8;
+      // string input = Console.ReadLine();
+      // Train train = AutoInput<Train>(input);
+      // Console.WriteLine(train);
+      
       bool get_out_out = false;
       while (!get_out_out) {
         Console.Write("\nChoose struct { Order, Train }: ");
@@ -115,6 +119,7 @@ namespace Lab5
             break;
         }
       }
+    
     }
   }
 }

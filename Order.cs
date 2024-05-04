@@ -29,13 +29,14 @@ namespace Lab5
 
     public override readonly string ToString()
     {
-      return $"Sender: {SenderAccount}\nReceiver: {ReceiverAccount}\nSum of transaction: {CentsToHrn(SumInCents)}\n";
+      return $"{SenderAccount} {ReceiverAccount} {CentsToHrn(SumInCents)}";
     }
 
     public readonly int CompareTo(Order other)
     {
       return (SumInCents > other.SumInCents) ? 1 : -1;
     }
+    
     public static string CentsToHrn(decimal cents)
     {
       cents /= 100;
