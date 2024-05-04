@@ -25,11 +25,11 @@ namespace Lab5
               Console.WriteLine("[1] Write data to TXT file");
               Console.WriteLine("[2] Serialize data to JSON file");
               Console.WriteLine("[3] Serialize data to XML file");
-              if (File.Exists("Order.txt"))
+              if (File.Exists("Orders.txt"))
                 Console.WriteLine("[4] Read data data TXT file");
-              if (File.Exists("Order.json"))
+              if (File.Exists("Orders.json"))
                 Console.WriteLine("[5] Deserialize data from JSON file");
-              if (File.Exists("Order.xml"))
+              if (File.Exists("Orders.xml"))
                 Console.WriteLine("[6] Deserialize data from XML file");
               
               Console.Write("\nChoose an option: ");
@@ -38,22 +38,22 @@ namespace Lab5
               switch (choice)
               {
                 case 1:
-                  WriteIntoTxt(EnterObjects<Order>(), "Order.txt");
+                  WriteIntoTxt(EnterObjects<Order>(), "Orders.txt");
                   break;
                 case 2:
-                  SerializeIntoJson(EnterObjects<Order>(), "Order.json");
+                  SerializeIntoJson(EnterObjects<Order>(), "Orders.json");
                   break;
                 case 3:
-                  SerializeIntoXml(EnterObjects<Order>(), "Order.xml");
+                  SerializeIntoXml(EnterObjects<Order>(), "Orders.xml");
                   break;
                 case 4:
-                  ReadFromTxt<Order>("Order.txt");
+                  ReadFromTxt<Order>("Orders.txt");
                   break;
                 case 5:
-                  DeserializeFromJson<Order>("Order.json");
+                  DeserializeFromJson<Order>("Orders.json");
                   break;
                 case 6:
-                  DeserializeFromXml<Order>("Order.xml");
+                  DeserializeFromXml<Order>("Orders.xml");
                   break;
                 case 0:
                   get_out = true;
@@ -72,11 +72,11 @@ namespace Lab5
               Console.WriteLine("[1] Write data to TXT file");
               Console.WriteLine("[2] Serialize data to JSON file");
               Console.WriteLine("[3] Serialize data to XML file");
-              if (File.Exists("Train.txt"))
+              if (File.Exists("Trains.txt"))
                 Console.WriteLine("[4] Read data data TXT file");
-              if (File.Exists("Train.json"))
+              if (File.Exists("Trains.json"))
                 Console.WriteLine("[5] Deserialize data from JSON file");
-              if (File.Exists("Train.xml"))
+              if (File.Exists("Trains.xml"))
                 Console.WriteLine("[6] Deserialize data from XML file");
                 
               Console.Write("\nChoose an option: ");
@@ -84,22 +84,22 @@ namespace Lab5
               switch (choice)
               {
                 case 1:
-                  WriteIntoTxt(EnterObjects<Train>(), "Train.txt");
+                  WriteIntoTxt(EnterObjects<Train>(), "Trains.txt");
                   break;
                 case 2:
-                  SerializeIntoJson(EnterObjects<Train>(), "Train.json");
+                  SerializeIntoJson(EnterObjects<Train>(), "Trains.json");
                   break;
                 case 3:
-                  SerializeIntoXml(EnterObjects<Train>(), "Train.xml");
+                  SerializeIntoXml(EnterObjects<Train>(), "Trains.xml");
                   break;
                 case 4:
-                  ReadFromTxt<Train>("Train.txt");
+                  ReadFromTxt<Train>("Trains.txt");
                   break;
                 case 5:
-                  DeserializeFromJson<Train>("Train.json");
+                  DeserializeFromJson<Train>("Trains.json");
                   break;
                 case 6:
-                  DeserializeFromXml<Train>("Train.xml");
+                  DeserializeFromXml<Train>("Trains.xml");
                   break;
                 case 0:
                   get_out = true;
